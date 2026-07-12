@@ -9,7 +9,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --ink:#0c0c0c;--ink-mid:#3a3a3a;--ink-faint:#7a7a7a;
-  --ink-ghost:#c8c4be;--paper:#f0ece4;--paper-off:#e8e4dc;
+  --ink-ghost:#c8c4be;--paper:#ffffff;--paper-off:#f5f5f5;
   --burgundy:#6e1423;
 }
 html{scroll-behavior:smooth}
@@ -39,7 +39,7 @@ nav{
 .dropdown{
   position:absolute;top:100%;left:50%;
   transform:translateX(-50%) translateY(-6px);
-  background:rgba(240,236,228,0.97);
+  background:rgba(255,255,255,0.97);
   border:1px solid var(--ink-ghost);
   backdrop-filter:blur(10px);
   min-width:180px;padding:14px 0;
@@ -67,7 +67,7 @@ nav{
   position: absolute;
   top: -14px;
   left: 100%;
-  background: rgba(240,236,228,0.97);
+  background: rgba(255,255,255,0.97);
   border: 1px solid var(--ink-ghost);
   backdrop-filter: blur(10px);
   min-width: 180px;
@@ -390,30 +390,33 @@ footer{
     <div class="form-eyebrow">Begin Here</div>
         <div class="form-field">
       <label class="form-label">Name</label>
-      <input class="form-input" type="text" placeholder="Your name"/>
+      <input class="form-input" type="text" placeholder="Your name" id="commName"/>
     </div>
 
     <div class="form-field">
       <label class="form-label">Email</label>
-      <input class="form-input" type="email" placeholder="your@email.com"/>
+      <input class="form-input" type="email" placeholder="your@email.com" id="commEmail"/>
     </div>
 
     <div class="form-field">
       <label class="form-label">Describe your vision</label>
-      <textarea class="form-textarea" placeholder="Describe what you have in mind..."></textarea>
+      <textarea class="form-textarea" placeholder="Describe what you have in mind..." id="commMessage"></textarea>
     </div>
 
     <div class="form-field">
       <label class="form-label">Reference images or drawings</label>
       <div class="upload-area">
-        <input type="file" multiple accept="image/*,.pdf"/>
+        <input type="file" multiple accept="image/*,.pdf" id="commFiles"/>
         <span class="upload-icon">attach</span>
         <div class="upload-text">Drop files here or click to upload</div>
         <div class="upload-sub">jpg, png, pdf — up to 10mb each</div>
       </div>
+      <div style="font-family:'Special Elite',monospace;font-size:0.6rem;letter-spacing:0.04em;color:var(--ink-faint);margin-top:8px;line-height:1.6;">Note: uploaded files aren't sent automatically — please attach them to the email once it opens.</div>
     </div>
 
-    <button class="form-submit">Send Inquiry →</button>
+    <div id="commFormMsg" style="display:none;font-family:'Special Elite',monospace;font-size:0.66rem;letter-spacing:0.06em;color:var(--burgundy);margin-top:-24px;margin-bottom:16px;"></div>
+
+    <button class="form-submit" type="button" id="commSubmitBtn">Send Inquiry →</button>
   </div>
 
   <!-- RIGHT: PROCESS -->
@@ -490,5 +493,44 @@ footer{
   
 </footer>
 
+
+<script>
+(function(){
+  var btn = document.getElementById('commSubmitBtn');
+  var msgEl = document.getElementById('commFormMsg');
+  if(!btn) return;
+
+  btn.addEventListener('click', function(){
+    var name = (document.getElementById('commName') || {}).value || '';
+    var email = (document.getElementById('commEmail') || {}).value || '';
+    var message = (document.getElementById('commMessage') || {}).value || '';
+
+    name = name.trim();
+    email = email.trim();
+    message = message.trim();
+
+    if(!name || !email || !message){
+      if(msgEl){
+        msgEl.textContent = 'Please fill in your name, email, and a description before sending.';
+        msgEl.style.display = 'block';
+      }
+      return;
+    }
+    if(msgEl) msgEl.style.display = 'none';
+
+    var recipient = 'paytonmwright@icloud.com';
+    var subject = 'Commission Inquiry — ' + name;
+    var body = 'Name: ' + name + '\n' + 'Email: ' + email + '\n\n' + 'Vision:\n' + message;
+    var mailtoUrl = 'mailto:' + encodeURIComponent(recipient) +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+
+    var originalText = btn.textContent;
+    btn.textContent = 'Opening your email app…';
+    window.location.href = mailtoUrl;
+    setTimeout(function(){ btn.textContent = originalText; }, 2500);
+  });
+})();
+</script>
 </body>
 </html>
