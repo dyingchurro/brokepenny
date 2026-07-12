@@ -292,6 +292,17 @@ footer{
 .add-to-cart-btn:hover{opacity:0.78;}
 .add-to-cart-btn.added{background:var(--burgundy);}
 
+.size-warning{
+  display:none;
+  font-family:'Special Elite',monospace;
+  font-size:0.66rem;letter-spacing:0.08em;
+  color:var(--burgundy);
+  text-align:center;
+  margin-top:-8px;
+  margin-bottom:16px;
+}
+.size-warning.visible{display:block;}
+
 .product-secure-note{
   font-family:'Special Elite',monospace;
   font-size:0.6rem;letter-spacing:0.08em;
@@ -392,7 +403,7 @@ footer{
       <div class="size-grid" id="sizeGrid">
         <button class="size-btn" type="button">4</button>
         <button class="size-btn" type="button">4.5</button>
-        <button class="size-btn active" type="button">5</button>
+        <button class="size-btn" type="button">5</button>
         <button class="size-btn" type="button">5.5</button>
         <button class="size-btn" type="button">6</button>
         <button class="size-btn" type="button">6.5</button>
@@ -418,6 +429,7 @@ footer{
     </div>
 
     <button class="add-to-cart-btn" type="button" id="addToCartBtn">Add to Cart — $480</button>
+    <div class="size-warning" id="sizeWarning">please select a size</div>
 
     <details class="product-details">
       <summary>Materials &amp; Care</summary>
@@ -444,6 +456,10 @@ footer{
 
 <script>
 (function(){
+  var PRODUCT_NAME = 'Solitaire Ring';
+  var PRODUCT_PRICE = 480;
+  var CART_KEY = 'pennyCart';
+
   var thumbs = document.querySelectorAll('.gallery-thumb');
   var main = document.getElementById('galleryMain');
   thumbs.forEach(function(t){
@@ -454,11 +470,13 @@ footer{
     });
   });
 
+  var sizeWarning = document.getElementById('sizeWarning');
   var sizeBtns = document.querySelectorAll('.size-btn');
   sizeBtns.forEach(function(b){
     b.addEventListener('click', function(){
       sizeBtns.forEach(function(x){x.classList.remove('active');});
       b.classList.add('active');
+      if(sizeWarning) sizeWarning.classList.remove('visible');
     });
   });
 
@@ -471,9 +489,51 @@ footer{
     qty++; qtyValue.textContent = qty;
   });
 
+  function loadCart(){
+    try{
+      var raw = window.localStorage.getItem(CART_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function saveCart(cart){
+    try{
+      window.localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    }catch(e){}
+  }
+
   var addBtn = document.getElementById('addToCartBtn');
   var addBtnDefaultText = addBtn.textContent;
   addBtn.addEventListener('click', function(){
+    var activeSize = document.querySelector('.size-btn.active');
+    if(!activeSize){
+      if(sizeWarning) sizeWarning.classList.add('visible');
+      return;
+    }
+    if(sizeWarning) sizeWarning.classList.remove('visible');
+
+    var size = activeSize.textContent.trim();
+    var thumbSvg = main.innerHTML;
+
+    var cart = loadCart();
+    var existing = cart.find(function(item){
+      return item.name === PRODUCT_NAME && item.size === size;
+    });
+    if(existing){
+      existing.qty += qty;
+    } else {
+      cart.push({
+        name: PRODUCT_NAME,
+        price: PRODUCT_PRICE,
+        size: size,
+        qty: qty,
+        thumb: thumbSvg
+      });
+    }
+    saveCart(cart);
+
     addBtn.textContent = 'Added to Cart ✓';
     addBtn.classList.add('added');
     setTimeout(function(){

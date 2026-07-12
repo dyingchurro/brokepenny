@@ -428,50 +428,7 @@ footer{
 
 <div class="cart-wrap">
   <div class="cart-items">
-    <div class="cart-rows-wrap" id="cartRowsWrap">
-      <div class="cart-row" data-unit-price="480">
-        <div class="cart-thumb"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></div>
-        <div>
-          <div class="cart-info-name">Solitaire Ring</div>
-          <div class="cart-info-meta">sterling silver · size 6</div>
-          <a href="#" class="cart-remove">remove</a>
-        </div>
-        <div class="qty-stepper">
-          <button class="qty-btn" type="button">–</button>
-          <div class="qty-value">1</div>
-          <button class="qty-btn" type="button">+</button>
-        </div>
-        <div class="cart-price">$480</div>
-      </div>
-      <div class="cart-row" data-unit-price="320">
-        <div class="cart-thumb"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="56" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="47" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="20" y="47" width="60" height="9" fill="#ece8e0"/><path d="M 38 47 C 34 36,28 28,20 22 C 26 28,34 37,38 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/><path d="M 62 47 C 66 36,72 28,80 22 C 74 28,66 37,62 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/></svg></div>
-        <div>
-          <div class="cart-info-name">Wave Band</div>
-          <div class="cart-info-meta">sterling silver · size 7</div>
-          <a href="#" class="cart-remove">remove</a>
-        </div>
-        <div class="qty-stepper">
-          <button class="qty-btn" type="button">–</button>
-          <div class="qty-value">1</div>
-          <button class="qty-btn" type="button">+</button>
-        </div>
-        <div class="cart-price">$320</div>
-      </div>
-      <div class="cart-row" data-unit-price="130">
-        <div class="cart-thumb"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div>
-        <div>
-          <div class="cart-info-name">Orbit Studs</div>
-          <div class="cart-info-meta">sterling silver</div>
-          <a href="#" class="cart-remove">remove</a>
-        </div>
-        <div class="qty-stepper">
-          <button class="qty-btn" type="button">–</button>
-          <div class="qty-value">2</div>
-          <button class="qty-btn" type="button">+</button>
-        </div>
-        <div class="cart-price">$260</div>
-      </div>
-    </div>
+    <div class="cart-rows-wrap" id="cartRowsWrap"></div>
 
     <div class="cart-empty" id="cartEmptyState" style="display:none;padding:60px 0;">
       <div class="cart-empty-script">Your bag is empty</div>
@@ -485,9 +442,9 @@ footer{
   <div class="cart-summary">
     <div class="summary-eyebrow">Order Summary</div>
 
-    <div class="summary-line"><span id="subtotalLabel">Subtotal (4 items)</span><span id="subtotalValue">$1,320</span></div>
+    <div class="summary-line"><span id="subtotalLabel">Subtotal (0 items)</span><span id="subtotalValue">$0</span></div>
     <div class="summary-line"><span>Shipping</span><span>calculated at checkout</span></div>
-    <div class="summary-line total"><span>Estimated Total</span><span id="totalValue">$1,320</span></div>
+    <div class="summary-line total"><span>Estimated Total</span><span id="totalValue">$0</span></div>
 
     <div class="summary-note">Taxes and final shipping calculated at checkout. Each piece is handcast to order.</div>
 
@@ -508,70 +465,131 @@ footer{
 
 <script>
 (function(){
+  var CART_KEY = 'pennyCart';
+  var cartData = [];
+
+  function loadCart(){
+    try{
+      var raw = window.localStorage.getItem(CART_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function saveCart(){
+    try{
+      window.localStorage.setItem(CART_KEY, JSON.stringify(cartData));
+    }catch(e){}
+  }
+
   function formatPrice(n){
     return '$' + n.toLocaleString('en-US');
   }
 
-  function recalc(){
-    var rows = document.querySelectorAll('.cart-row');
-    var subtotal = 0;
-    var itemCount = 0;
-    rows.forEach(function(row){
-      var unit = parseFloat(row.getAttribute('data-unit-price'));
-      var qty = parseInt(row.querySelector('.qty-value').textContent, 10);
-      subtotal += unit * qty;
-      itemCount += qty;
+  function buildRow(item, index){
+    var row = document.createElement('div');
+    row.className = 'cart-row';
+
+    var thumb = document.createElement('div');
+    thumb.className = 'cart-thumb';
+    thumb.innerHTML = item.thumb || '';
+
+    var info = document.createElement('div');
+    var nameEl = document.createElement('div');
+    nameEl.className = 'cart-info-name';
+    nameEl.textContent = item.name;
+    var metaEl = document.createElement('div');
+    metaEl.className = 'cart-info-meta';
+    metaEl.textContent = 'sterling silver' + (item.size ? (' · size ' + item.size) : '');
+    var removeLink = document.createElement('a');
+    removeLink.href = '#';
+    removeLink.className = 'cart-remove';
+    removeLink.textContent = 'remove';
+    removeLink.addEventListener('click', function(e){
+      e.preventDefault();
+      cartData.splice(index, 1);
+      saveCart();
+      render();
+    });
+    info.appendChild(nameEl);
+    info.appendChild(metaEl);
+    info.appendChild(removeLink);
+
+    var stepper = document.createElement('div');
+    stepper.className = 'qty-stepper';
+    var minusBtn = document.createElement('button');
+    minusBtn.className = 'qty-btn';
+    minusBtn.type = 'button';
+    minusBtn.textContent = '–';
+    var qtyVal = document.createElement('div');
+    qtyVal.className = 'qty-value';
+    qtyVal.textContent = item.qty;
+    var plusBtn = document.createElement('button');
+    plusBtn.className = 'qty-btn';
+    plusBtn.type = 'button';
+    plusBtn.textContent = '+';
+
+    minusBtn.addEventListener('click', function(){
+      if(item.qty > 1){
+        item.qty--;
+      } else {
+        cartData.splice(index, 1);
+      }
+      saveCart();
+      render();
+    });
+    plusBtn.addEventListener('click', function(){
+      item.qty++;
+      saveCart();
+      render();
     });
 
-    var subtotalLabel = document.getElementById('subtotalLabel');
-    var subtotalValue = document.getElementById('subtotalValue');
-    var totalValue = document.getElementById('totalValue');
-    if(subtotalLabel) subtotalLabel.textContent = 'Subtotal (' + itemCount + (itemCount === 1 ? ' item' : ' items') + ')';
-    if(subtotalValue) subtotalValue.textContent = formatPrice(subtotal);
-    if(totalValue) totalValue.textContent = formatPrice(subtotal);
+    stepper.appendChild(minusBtn);
+    stepper.appendChild(qtyVal);
+    stepper.appendChild(plusBtn);
 
+    var priceEl = document.createElement('div');
+    priceEl.className = 'cart-price';
+    priceEl.textContent = formatPrice(item.price * item.qty);
+
+    row.appendChild(thumb);
+    row.appendChild(info);
+    row.appendChild(stepper);
+    row.appendChild(priceEl);
+
+    return row;
+  }
+
+  function render(){
     var wrap = document.getElementById('cartRowsWrap');
     var emptyState = document.getElementById('cartEmptyState');
     var continueLink = document.getElementById('continueShoppingLink');
-    var isEmpty = rows.length === 0;
-    if(emptyState) emptyState.style.display = isEmpty ? 'block' : 'none';
-    if(wrap) wrap.style.display = isEmpty ? 'none' : 'block';
-    if(continueLink) continueLink.style.display = isEmpty ? 'none' : 'inline-flex';
-  }
+    var subtotalLabel = document.getElementById('subtotalLabel');
+    var subtotalValue = document.getElementById('subtotalValue');
+    var totalValue = document.getElementById('totalValue');
 
-  function wireRow(row){
-    var qtyValue = row.querySelector('.qty-value');
-    var qtyBtns = row.querySelectorAll('.qty-btn');
-    var priceEl = row.querySelector('.cart-price');
-    var unit = parseFloat(row.getAttribute('data-unit-price'));
-
-    qtyBtns.forEach(function(btn){
-      var isMinus = btn.textContent.trim() === '–' || btn.textContent.trim() === '-';
-      btn.addEventListener('click', function(){
-        var qty = parseInt(qtyValue.textContent, 10);
-        if(isMinus){
-          if(qty > 1) qty--;
-        } else {
-          qty++;
-        }
-        qtyValue.textContent = qty;
-        priceEl.textContent = formatPrice(unit * qty);
-        recalc();
-      });
+    wrap.innerHTML = '';
+    var subtotal = 0;
+    var itemCount = 0;
+    cartData.forEach(function(item, index){
+      wrap.appendChild(buildRow(item, index));
+      subtotal += item.price * item.qty;
+      itemCount += item.qty;
     });
 
-    var removeLink = row.querySelector('.cart-remove');
-    if(removeLink){
-      removeLink.addEventListener('click', function(e){
-        e.preventDefault();
-        row.remove();
-        recalc();
-      });
-    }
+    var isEmpty = cartData.length === 0;
+    emptyState.style.display = isEmpty ? 'block' : 'none';
+    wrap.style.display = isEmpty ? 'none' : 'block';
+    continueLink.style.display = isEmpty ? 'none' : 'inline-flex';
+
+    subtotalLabel.textContent = 'Subtotal (' + itemCount + (itemCount === 1 ? ' item' : ' items') + ')';
+    subtotalValue.textContent = formatPrice(subtotal);
+    totalValue.textContent = formatPrice(subtotal);
   }
 
-  document.querySelectorAll('.cart-row').forEach(wireRow);
-  recalc();
+  cartData = loadCart();
+  render();
 
   var promoBtn = document.querySelector('.promo-apply');
   if(promoBtn){
