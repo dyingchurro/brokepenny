@@ -178,6 +178,48 @@ nav{
   color:var(--ink-ghost);margin-top:6px;
 }
 
+.upload-file-list{
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.upload-file-chip{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 14px;
+  background:var(--paper-off);
+  border:1px solid var(--ink-ghost);
+}
+.upload-file-name{
+  font-family:'Special Elite',monospace;
+  font-size:0.68rem;
+  letter-spacing:0.02em;
+  color:var(--ink);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.upload-file-size{
+  color:var(--ink-faint);
+  margin-left:6px;
+}
+.upload-file-remove{
+  font-family:'Special Elite',monospace;
+  font-size:0.8rem;
+  color:var(--ink-faint);
+  background:none;
+  border:none;
+  cursor:pointer;
+  line-height:1;
+  padding:0 2px;
+  flex-shrink:0;
+  transition:color 0.15s;
+}
+.upload-file-remove:hover{color:var(--burgundy);}
+
 .form-submit{
   margin-top:40px;
   background:var(--ink);border:none;
@@ -431,12 +473,13 @@ footer{
 
     <div class="form-field">
       <label class="form-label">Reference images or drawings</label>
-      <div class="upload-area">
+      <div class="upload-area" id="uploadArea">
         <input type="file" multiple accept="image/*,.pdf" id="commFiles"/>
         <span class="upload-icon">attach</span>
         <div class="upload-text">Drop files here or click to upload</div>
         <div class="upload-sub">jpg, png, pdf — up to 10mb each</div>
       </div>
+      <div class="upload-file-list" id="uploadFileList"></div>
     </div>
 
     <div id="commFormMsg" style="display:none;font-family:'Special Elite',monospace;font-size:0.66rem;letter-spacing:0.06em;color:var(--burgundy);margin-top:-24px;margin-bottom:16px;"></div>
@@ -527,22 +570,93 @@ footer{
 
 <script>
 (function(){
-  // Replace this with your deployed Cloudflare Worker URL once it's live.
   var FORM_ENDPOINT = 'https://penny-commission-form.brokepennyjewelry.workers.dev/';
 
   var btn = document.getElementById('commSubmitBtn');
   var msgEl = document.getElementById('commFormMsg');
   var fieldsEl = document.getElementById('commFormFields');
   var thankYouEl = document.getElementById('commThankYou');
+  var filesInput = document.getElementById('commFiles');
+  var uploadArea = document.getElementById('uploadArea');
+  var fileListEl = document.getElementById('uploadFileList');
   if(!btn) return;
 
   var originalBtnText = btn.textContent;
+  var selectedFiles = [];
+
+  function formatFileSize(bytes){
+    return Math.round(bytes / 1024).toLocaleString('en-US') + 'K';
+  }
+
+  function renderFileList(){
+    if(!fileListEl) return;
+    fileListEl.innerHTML = '';
+    selectedFiles.forEach(function(file, index){
+      var chip = document.createElement('div');
+      chip.className = 'upload-file-chip';
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'upload-file-name';
+      nameEl.textContent = file.name;
+      var sizeSpan = document.createElement('span');
+      sizeSpan.className = 'upload-file-size';
+      sizeSpan.textContent = '(' + formatFileSize(file.size) + ')';
+      nameEl.appendChild(sizeSpan);
+
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'upload-file-remove';
+      removeBtn.textContent = '×';
+      removeBtn.addEventListener('click', function(){
+        selectedFiles.splice(index, 1);
+        renderFileList();
+      });
+
+      chip.appendChild(nameEl);
+      chip.appendChild(removeBtn);
+      fileListEl.appendChild(chip);
+    });
+  }
+
+  function addFiles(fileList){
+    for(var i = 0; i < fileList.length; i++){
+      var f = fileList[i];
+      var isDupe = selectedFiles.some(function(existing){
+        return existing.name === f.name && existing.size === f.size && existing.lastModified === f.lastModified;
+      });
+      if(!isDupe) selectedFiles.push(f);
+    }
+    renderFileList();
+  }
+
+  if(filesInput){
+    filesInput.addEventListener('change', function(){
+      addFiles(filesInput.files);
+      filesInput.value = '';
+    });
+  }
+
+  if(uploadArea){
+    uploadArea.addEventListener('dragover', function(e){
+      e.preventDefault();
+      uploadArea.style.borderColor = 'var(--ink)';
+    });
+    uploadArea.addEventListener('dragleave', function(){
+      uploadArea.style.borderColor = '';
+    });
+    uploadArea.addEventListener('drop', function(e){
+      e.preventDefault();
+      uploadArea.style.borderColor = '';
+      if(e.dataTransfer && e.dataTransfer.files){
+        addFiles(e.dataTransfer.files);
+      }
+    });
+  }
 
   btn.addEventListener('click', function(){
     var nameInput = document.getElementById('commName');
     var emailInput = document.getElementById('commEmail');
     var messageInput = document.getElementById('commMessage');
-    var filesInput = document.getElementById('commFiles');
 
     var name = (nameInput || {}).value || '';
     var email = (emailInput || {}).value || '';
@@ -565,11 +679,9 @@ footer{
     formData.append('name', name);
     formData.append('email', email);
     formData.append('message', message);
-    if(filesInput && filesInput.files){
-      for(var i = 0; i < filesInput.files.length; i++){
-        formData.append('files', filesInput.files[i]);
-      }
-    }
+    selectedFiles.forEach(function(f){
+      formData.append('files', f);
+    });
 
     btn.disabled = true;
     btn.textContent = 'Sending…';
