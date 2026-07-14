@@ -749,7 +749,7 @@ document.querySelectorAll('.photo-scroll').forEach(el => {
         navLogo.classList.remove('visible');
         logoState = 'rest';
       }
-      scrollLogo.style.transform = 'translate3d(20px,' + restTop + 'px,0)';
+      scrollLogo.style.transform = 'translate3d(' + logoLeft + 'px,' + restTop + 'px,0)';
     } else if (naturalLogoTop <= -100) {
       // Scrolled well past — hand off to the static nav logo
       if (logoState !== 'hidden') {
@@ -776,7 +776,7 @@ document.querySelectorAll('.photo-scroll').forEach(el => {
         navSealLink.classList.remove('visible');
         sealState = 'rest';
       }
-      scrollSeal.style.transform = 'translate3d(' + (window.innerWidth - SEAL_START_MARGIN - SEAL_SIZE) + 'px,' + sealRestTop + 'px,0)';
+      scrollSeal.style.transform = 'translate3d(' + sealLeft + 'px,' + sealRestTop + 'px,0)';
     } else if (naturalSealTop <= -100) {
       if (sealState !== 'hidden') {
         scrollSeal.style.display = 'none';

@@ -170,17 +170,28 @@ footer{
 }
 
 /* ABOUT PAGE CONTENT */
-.about-content{max-width:640px;margin:0 auto;padding:8px 44px 16px;}
+.about-wrap{
+  display:grid;
+  grid-template-columns:1fr 400px;
+  gap:64px;
+  align-items:start;
+  max-width:1160px;
+  margin:0 auto;
+  padding:8px 44px 80px;
+}
+
+.about-content{padding-top:8px;}
 .about-content p{font-size:1.05rem;line-height:1.9;color:var(--ink-mid);margin-bottom:28px;}
 .about-content p:last-child{margin-bottom:0;font-style:italic;color:var(--ink-faint);}
 
-.about-image-wrap{max-width:320px;margin:32px auto 80px;text-align:center;}
+.about-image-wrap{text-align:center;}
 .about-image{background:#f0f0f0;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;padding:16%;}
 .about-image svg{width:100%;height:100%;opacity:0.8;}
 .about-image-caption{margin-top:14px;font-family:'Special Elite',monospace;font-size:0.6rem;letter-spacing:0.16em;color:var(--ink-faint);text-transform:lowercase;}
 
-@media(max-width:768px){
-  .about-content{padding:8px 22px 16px;}
+@media(max-width:900px){
+  .about-wrap{grid-template-columns:1fr;padding:8px 22px 56px;gap:32px;}
+  .about-image-wrap{max-width:320px;margin:0 auto;}
 }
 </style>
 </head>
@@ -229,23 +240,25 @@ footer{
   <div class="page-title">About</div>
 </div>
 
-<div class="about-content">
-  <p>Penny started as an experiment of what happens when metal meets the body, not jewelry as adornment first, but as a small, wearable test of how a material holds weight, how it moves, how it sits against skin.</p>
-  <p>That same curiosity extends past jewelry. It's sitting with creators, learning their process, their thoughts and understanding of art, and transitioning it into the lens of metalwork and wearables.</p>
-  <p>The name is quieter than the rest of it. Some things are worth keeping small.</p>
-</div>
-
-<div class="about-image-wrap">
-  <div class="about-image">
-    <div class="about-image-inner">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 30 78 C 25 60, 35 40, 50 25 C 65 40, 75 60, 70 78 Z" fill="none" stroke="#3a3632" stroke-width="1.2"/>
-        <ellipse cx="50" cy="30" rx="10" ry="6" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/>
-        <line x1="38" y1="78" x2="62" y2="78" stroke="#3a3632" stroke-width="1.2"/>
-      </svg>
-    </div>
+<div class="about-wrap">
+  <div class="about-content">
+    <p>Penny started as an experiment of what happens when metal meets the body, not jewelry as adornment first, but as a small, wearable test of how a material holds weight, how it moves, how it sits against skin.</p>
+    <p>That same curiosity extends past jewelry. It's sitting with creators, learning their process, their thoughts and understanding of art, and transitioning it into the lens of metalwork and wearables.</p>
+    <p>The name is quieter than the rest of it. Some things are worth keeping small.</p>
   </div>
-  <div class="about-image-caption">other work — coming soon</div>
+
+  <div class="about-image-wrap">
+    <div class="about-image">
+      <div class="about-image-inner">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 30 78 C 25 60, 35 40, 50 25 C 65 40, 75 60, 70 78 Z" fill="none" stroke="#3a3632" stroke-width="1.2"/>
+          <ellipse cx="50" cy="30" rx="10" ry="6" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/>
+          <line x1="38" y1="78" x2="62" y2="78" stroke="#3a3632" stroke-width="1.2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="about-image-caption">other work — coming soon</div>
+  </div>
 </div>
 
 <footer>
