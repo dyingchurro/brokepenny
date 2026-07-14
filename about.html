@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Penny — Rings</title>
+<title>Penny — About</title>
 <link href="https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&family=Special+Elite&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -168,6 +168,20 @@ footer{
   .photo-grid{grid-template-columns:repeat(3,1fr);}
   .page-header{padding:32px 18px 24px;}
 }
+
+/* ABOUT PAGE CONTENT */
+.about-content{max-width:640px;margin:0 auto;padding:8px 44px 16px;}
+.about-content p{font-size:1.05rem;line-height:1.9;color:var(--ink-mid);margin-bottom:28px;}
+.about-content p:last-child{margin-bottom:0;font-style:italic;color:var(--ink-faint);}
+
+.about-image-wrap{max-width:320px;margin:32px auto 80px;text-align:center;}
+.about-image{background:#f0f0f0;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;padding:16%;}
+.about-image svg{width:100%;height:100%;opacity:0.8;}
+.about-image-caption{margin-top:14px;font-family:'Special Elite',monospace;font-size:0.6rem;letter-spacing:0.16em;color:var(--ink-faint);text-transform:lowercase;}
+
+@media(max-width:768px){
+  .about-content{padding:8px 22px 16px;}
+}
 </style>
 </head>
 <body>
@@ -212,31 +226,26 @@ footer{
 <div class="hero-spacer"></div>
 
 <div class="page-header">
-  <div class="page-title">Rings</div>
+  <div class="page-title">About</div>
 </div>
 
-<div class="photo-grid">
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="56" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="47" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="20" y="47" width="60" height="9" fill="#ece8e0"/><path d="M 38 47 C 34 36,28 28,20 22 C 26 28,34 37,38 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/><path d="M 62 47 C 66 36,72 28,80 22 C 74 28,66 37,62 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="56" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="47" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="20" y="47" width="60" height="9" fill="#ece8e0"/><path d="M 38 47 C 34 36,28 28,20 22 C 26 28,34 37,38 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/><path d="M 62 47 C 66 36,72 28,80 22 C 74 28,66 37,62 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="56" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="47" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="20" y="47" width="60" height="9" fill="#ece8e0"/><path d="M 38 47 C 34 36,28 28,20 22 C 26 28,34 37,38 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/><path d="M 62 47 C 66 36,72 28,80 22 C 74 28,66 37,62 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="56" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="47" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="20" y="47" width="60" height="9" fill="#ece8e0"/><path d="M 38 47 C 34 36,28 28,20 22 C 26 28,34 37,38 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/><path d="M 62 47 C 66 36,72 28,80 22 C 74 28,66 37,62 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="56" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="47" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="20" y="47" width="60" height="9" fill="#ece8e0"/><path d="M 38 47 C 34 36,28 28,20 22 C 26 28,34 37,38 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/><path d="M 62 47 C 66 36,72 28,80 22 C 74 28,66 37,62 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="56" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="47" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="20" y="47" width="60" height="9" fill="#ece8e0"/><path d="M 38 47 C 34 36,28 28,20 22 C 26 28,34 37,38 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/><path d="M 62 47 C 66 36,72 28,80 22 C 74 28,66 37,62 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></div></a>
-<a class="grid-cell" href="product.html"><div class="cell-inner"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div></a>
+<div class="about-content">
+  <p>Penny started as an experiment of what happens when metal meets the body, not jewelry as adornment first, but as a small, wearable test of how a material holds weight, how it moves, how it sits against skin.</p>
+  <p>That same curiosity extends past jewelry. It's sitting with creators, learning their process, their thoughts and understanding of art, and transitioning it into the lens of metalwork and wearables.</p>
+  <p>The name is quieter than the rest of it. Some things are worth keeping small.</p>
+</div>
 
+<div class="about-image-wrap">
+  <div class="about-image">
+    <div class="about-image-inner">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 30 78 C 25 60, 35 40, 50 25 C 65 40, 75 60, 70 78 Z" fill="none" stroke="#3a3632" stroke-width="1.2"/>
+        <ellipse cx="50" cy="30" rx="10" ry="6" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/>
+        <line x1="38" y1="78" x2="62" y2="78" stroke="#3a3632" stroke-width="1.2"/>
+      </svg>
+    </div>
+  </div>
+  <div class="about-image-caption">other work — coming soon</div>
 </div>
 
 <footer>
