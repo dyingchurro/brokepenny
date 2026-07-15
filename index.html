@@ -227,28 +227,6 @@ footer{
 .footer-links{display:flex;gap:28px;list-style:none;}
 .footer-links a{font-family:'Special Elite',monospace;font-size:0.62rem;letter-spacing:0.16em;color:var(--ink-mid);text-decoration:none;text-transform:lowercase;transition:color 0.2s;}
 .footer-links a:hover{color:var(--ink);}
-@media(max-width:768px){
-  .footer-links{gap:16px;flex-wrap:wrap;}
-}
-
-@media(max-width:768px){
-  nav{height:130px;padding:12px 18px 0;}
-  .nav-logo img{height:160px;top:-8px;left:-8px;}
-  .penny-seal{
-  display:block;
-  width:90px;height:90px;
-  object-fit:contain;
-  mix-blend-mode:multiply;
-  cursor:pointer;
-  transition:transform 0.2s;
-}
-.penny-seal:hover{transform:scale(1.06) rotate(-3deg);}
-  .nav-links{gap:20px;}
-  .photo-card{width:240px;height:280px;}
-  .photo-scroll{height:280px;}
-  .section-label{font-size:2.2rem;right:16px;}
-  .hero-spacer{height:130px;}
-}
 
 /* ── DROPDOWN ── */
 .nav-item {
@@ -452,6 +430,46 @@ footer{
 
 .scroll-logo.parked {
   display: none;
+}
+@media(max-width:1024px){
+  nav{height:180px;padding:14px 26px 0;}
+  .nav-logo img{height:170px;top:6px;left:-10px;}
+  .penny-seal{width:70px;height:70px;}
+  #navSealLink{width:70px !important;height:70px !important;}
+  .nav-links{gap:24px;}
+  .nav-links a{font-size:0.62rem;}
+  .photo-card{width:300px;height:280px;}
+  .photo-scroll{height:280px;}
+  .section-label{font-size:2.6rem;right:24px;}
+  .scroll-logo{height:195px;}
+  .scroll-seal{width:70px;height:70px;}
+  .footer-links{gap:20px;}
+  .side-dropdown{left:0;top:calc(100% + 4px);}
+}
+
+@media(max-width:640px){
+  nav{
+    height:auto;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    row-gap:10px;
+    padding:14px 16px 12px;
+  }
+  .nav-logo{width:100%;display:flex;justify-content:center;}
+  .nav-logo img{height:56px;top:0;left:0;}
+  .nav-right{width:100%;flex-direction:row;align-items:center;justify-content:center;gap:20px;padding-top:0;padding-bottom:0;}
+  .penny-seal{width:38px;height:38px;}
+  #navSealLink{width:38px !important;height:38px !important;}
+  .nav-links{gap:14px;}
+  .nav-links a{font-size:0.56rem;letter-spacing:0.12em;}
+  .photo-card{width:220px;height:230px;}
+  .photo-scroll{height:230px;}
+  .section-label{font-size:1.7rem;right:12px;}
+  .scroll-logo{height:76px;}
+  .scroll-seal{width:38px;height:38px;}
+  footer{padding:24px 20px;flex-direction:column;gap:16px;align-items:flex-start;}
+  .footer-links{gap:16px;flex-wrap:wrap;}
 }
 </style>
 </head>

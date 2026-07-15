@@ -155,18 +155,37 @@ footer{
 .footer-links{display:flex;gap:28px;list-style:none;}
 .footer-links a{font-family:'Special Elite',monospace;font-size:0.62rem;letter-spacing:0.16em;color:var(--ink-mid);text-decoration:none;text-transform:lowercase;transition:color 0.2s;}
 .footer-links a:hover{color:var(--ink);}
-@media(max-width:768px){
-  .footer-links{gap:16px;flex-wrap:wrap;}
+@media(max-width:1024px){
+  nav{height:120px;padding:14px 26px 0;}
+  .nav-logo img{height:112px;top:-6px;left:-10px;}
+  .penny-seal{width:64px;height:64px;}
+  .nav-links{gap:22px;}
+  .nav-links a{font-size:0.62rem;}
+  .hero-spacer{height:120px;}
+  .photo-grid{grid-template-columns:repeat(4,1fr);gap:18px;}
+  .page-header{padding:36px 26px 26px;}
+  .footer-links{gap:20px;}
 }
 
-@media(max-width:768px){
-  nav{height:130px;padding:12px 18px 0;}
-  .nav-logo img{height:160px;top:-8px;left:-8px;}
-  .penny-seal{width:54px;height:54px;}
-  .nav-links{gap:20px;}
-  .hero-spacer{height:130px;}
-  .photo-grid{grid-template-columns:repeat(3,1fr);}
-  .page-header{padding:32px 18px 24px;}
+@media(max-width:640px){
+  nav{
+    height:auto;
+    flex-wrap:wrap;
+    justify-content:center;
+    row-gap:10px;
+    padding:14px 16px 12px;
+  }
+  .nav-logo{width:100%;display:flex;justify-content:center;}
+  .nav-logo img{height:60px;top:0;left:0;}
+  .nav-right{width:100%;flex-direction:row;align-items:center;justify-content:center;gap:20px;padding-top:0;}
+  .penny-seal{width:40px;height:40px;}
+  .nav-links{gap:14px;}
+  .nav-links a{font-size:0.56rem;letter-spacing:0.12em;}
+  .hero-spacer{height:118px;}
+  .photo-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .page-header{padding:24px 16px 20px;}
+  footer{padding:24px 20px;flex-direction:column;gap:16px;align-items:flex-start;}
+  .footer-links{gap:16px;flex-wrap:wrap;}
 }
 
 /* ABOUT PAGE CONTENT */
@@ -181,7 +200,7 @@ footer{
 }
 
 .about-content{padding-top:8px;}
-.about-content p{font-size:1.05rem;line-height:1.9;color:var(--ink-mid);margin-bottom:28px;}
+.about-content p{font-family:'Special Elite',monospace;font-size:0.82rem;line-height:2.05;letter-spacing:0.01em;color:var(--ink-mid);margin-bottom:28px;}
 .about-content p:last-child{margin-bottom:0;font-style:italic;color:var(--ink-faint);}
 
 .about-image-wrap{text-align:center;}
