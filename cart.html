@@ -310,7 +310,6 @@ footer{
   <div class="bb-col">
     <div class="bb-title-row">
       <h1 class="bb-title"><span class="bb-dot" aria-hidden="true"></span>Cart</h1>
-      <a href="index.html" id="continueShoppingLink">Continue Shopping</a>
     </div>
 
     <div class="bb-list" id="cartRowsWrap"></div>
@@ -410,8 +409,6 @@ footer{
     if(cartData.length === 0){
       var empty = el('div', 'bb-row');
       empty.appendChild(el('span', '', 'Your cart is empty'));
-      var shop = el('a', '', 'Shop'); shop.href = 'index.html';
-      empty.appendChild(shop);
       wrap.appendChild(empty);
       summary.style.display = 'none';
     } else {
