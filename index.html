@@ -44,6 +44,7 @@ body{
   color:var(--ink);
   font-family:'Manrope',sans-serif;
   overflow-x:hidden;
+  overflow-x:clip;
 }
 
 /* ── NAV ── */
@@ -515,7 +516,7 @@ footer{
   display:block;
   position:relative;
   background:#ffffff;
-  border:1px solid var(--ink);
+  border:none;
   padding:0;
   text-decoration:none;
   overflow:hidden;
@@ -628,6 +629,17 @@ footer{
   .scroll-seal{width:44px;height:44px;}
   .product-list{padding-top:40px;}
 }
+
+
+/* ── sticky logo + seal (see script at the bottom of the page) ── */
+.sticky-track{position:absolute;z-index:250;pointer-events:none;display:flex;flex-direction:column;}
+.logo-track{justify-content:flex-end;}
+.seal-track{justify-content:flex-start;}
+.sticky-track .scroll-logo{position:sticky;bottom:40px;top:auto;left:auto;transform:none;will-change:auto;display:block !important;flex-shrink:0;}
+.sticky-track .scroll-seal{position:sticky;top:40px;left:auto;transform:none;will-change:auto;display:block !important;flex-shrink:0;pointer-events:auto;cursor:pointer;}
+.sticky-track .scroll-logo img{height:100%;width:auto;display:block;}
+/* the header copies stay hidden on this page: the sticky ones land exactly on top of them */
+.nav-logo,.nav-seal-link{opacity:0 !important;pointer-events:none !important;}
 </style>
 <script>
 /* Hero photo: put your photo in the images folder named hero.jpg (or .jpeg / .png / .webp).
@@ -635,7 +647,7 @@ footer{
 function pennyHeroFallback(img){
   var list = (img.getAttribute('data-fallbacks') || '').split(',').filter(Boolean);
   if(list.length){ img.setAttribute('data-fallbacks', list.slice(1).join(',')); img.src = list[0]; }
-  else { img.style.display = 'none'; img.removeAttribute('onerror'); }
+  else { img.style.display = 'none'; img.removeAttribute('onerror'); img.onerror = null; }
 }
 </script>
 <script>
@@ -657,7 +669,31 @@ function pennyImgFallback(img){
 
 <!-- HERO IMAGE -->
 <div class="hero-image-section" id="hero-image">
-  <img class="hero-img" src="images/hero.jpg" alt="Penny" data-fallbacks="images/hero.jpeg,images/hero.png,images/hero.webp" onerror="pennyHeroFallback(this)"/>
+  <img class="hero-img" id="heroImg" alt="Penny"/>
+  <script>
+  /* Hero photo: computers use images/hero.jpg, phones use images/hero_mobile.jpg
+     (if there's no phone version, phones fall back to hero.jpg). Any of .jpg .jpeg .png .webp works. */
+  (function(){
+    var img = document.getElementById('heroImg');
+    var exts = ['jpg','jpeg','png','webp','JPG','JPEG','PNG'];
+    var phone = window.matchMedia('(hover:none) and (max-width:640px), (max-width:599px)');
+    function candidates(){
+      var names = phone.matches ? ['hero_mobile','hero'] : ['hero'];
+      var out = [];
+      names.forEach(function(n){ exts.forEach(function(e){ out.push('images/' + n + '.' + e); }); });
+      return out;
+    }
+    function load(){
+      var list = candidates();
+      img.style.display = '';
+      img.setAttribute('data-fallbacks', list.slice(1).join(','));
+      img.onerror = function(){ pennyHeroFallback(img); };
+      img.src = list[0];
+    }
+    load();
+    if(phone.addEventListener) phone.addEventListener('change', load);
+  })();
+  </script>
 </div>
 
 <!-- SCROLL LOGO — animates from hero into nav -->
@@ -694,7 +730,7 @@ function pennyImgFallback(img){
 <!-- PRODUCT LIST — newest pieces first; add new items at the top -->
 <div class="product-list">
   <div class="item-row" data-name="Cage Ring" data-price="425">
-    <a class="item-photo" href="cage-ring.html"><img src="images/cagering_cover.jpg" alt="Cage Ring" data-fallbacks="images/cagering_cover.jpeg,images/cagering_cover.png,images/cagering_cover.webp" onerror="pennyImgFallback(this)"/><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></a>
+    <a class="item-photo" href="cage-ring.html"><img src="images/cagering_cover.jpg" alt="Cage Ring" fetchpriority="high" data-fallbacks="images/cagering_cover.jpeg,images/cagering_cover.png,images/cagering_cover.webp,images/cagering_cover.JPG,images/cagering_cover.JPEG,images/cagering_cover.PNG,images/cagering_cover.jpg.jpg" onerror="pennyImgFallback(this)"/></a>
     <div class="item-info">
       <div class="item-head"><a class="item-name" href="cage-ring.html">Cage Ring</a><span class="item-price">$425</span></div>
       <div class="item-line"><span class="item-label">Material:</span> 925 sterling silver</div>
@@ -719,132 +755,69 @@ function pennyImgFallback(img){
 
 <script>
 (function() {
-  const scrollLogo = document.getElementById('scrollLogo');
-  const navLogoImg = document.querySelector('.nav-logo img');
-  const navLogo = document.querySelector('.nav-logo');
-  const heroSection = document.getElementById('hero-image');
+  /* Penny logo + seal "drop into the header" effect, done with CSS position:sticky.
+     The browser itself moves them while you scroll (no JavaScript runs during scrolling),
+     so it is perfectly smooth on iPhone as well as on computers.
+       • Logo: sits 40px above the bottom of the screen over the hero, then rides up with
+         the header and stops exactly where the header logo belongs.
+       • Seal: sits 40px from the top right, then rides up with the header into its spot.
+     JavaScript only measures where the header logo/seal live (on load and when the window
+     size changes) and sizes two invisible "tracks" so the sticky elements stop there. */
+  const scrollLogo  = document.getElementById('scrollLogo');
+  const scrollSeal  = document.getElementById('scrollSeal');
+  const navLogoImg  = document.querySelector('.nav-logo img');
+  const navSealImg  = document.getElementById('navSeal');
+  const GAP = 40;   // px from the screen edge while resting over the hero
 
-  const scrollSeal = document.getElementById('scrollSeal');
-  const navSealImg = document.getElementById('navSeal');
-  const navSealLink = document.getElementById('navSealLink');
+  // wrap each one in an invisible track that ends at its header position
+  function makeTrack(el, cls){
+    const track = document.createElement('div');
+    track.className = 'sticky-track ' + cls;
+    el.parentNode.insertBefore(track, el);
+    track.appendChild(el);
+    return track;
+  }
+  const logoTrack = makeTrack(scrollLogo, 'logo-track');
+  const sealTrack = makeTrack(scrollSeal, 'seal-track');
 
-  const SEAL_SIZE = 90;
-  const LOGO_BOTTOM_GAP = 40; // px between the bottom of the screen and the bottom of the resting logo
-  const SEAL_START_MARGIN = 40; // px from top/right of viewport where the seal starts
+  // the seal acts like the header seal: tap to go back to the top
+  scrollSeal.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
 
-  // These are measured once (on load/resize), then reused with plain arithmetic on
-  // every scroll — no layout queries inside the scroll handler, so there's nothing
-  // that can lag behind and cause the fixed logo/seal to overshoot their target and
-  // creep back. Because nav sits in normal document flow directly under the hero,
-  // its resting screen position is an exact linear function of scrollY, so once we
-  // know the constant offset we can compute it directly for any scroll position.
-  let heroH = 0;
-  let logoLeft = 0, logoOffset = 0;   // naturalLogoTop(scrollY) = heroH + logoOffset - scrollY
-  let sealLeft = 0, sealOffset = 0;   // naturalSealTop(scrollY) = heroH + sealOffset - scrollY
+  function measure(){
+    const z = window.__pz || 1;              // page zoom on narrow computer windows
+    const y = window.scrollY;
+    const L = navLogoImg.getBoundingClientRect();
+    const S = navSealImg.getBoundingClientRect();
+    // header positions in page coordinates (CSS px)
+    const logoTop  = (L.top + y) / z, logoLeft = L.left / z, logoH = L.height / z;
+    const sealTop  = (S.top + y) / z, sealLeft = S.left / z, sealH = S.height / z, sealW = S.width / z;
 
-  function measure() {
-    heroH = heroSection.offsetHeight;
-    const scrollY = window.scrollY;
+    // logo: track runs from the top of the page down to the header logo's bottom edge;
+    // the logo sits at the end of it and sticks 40px above the screen bottom until it gets there
+    logoTrack.style.left = logoLeft + 'px';
+    logoTrack.style.top = '0px';
+    logoTrack.style.height = (logoTop + logoH) + 'px';
+    scrollLogo.style.height = logoH + 'px';
 
-    const logoRect = navLogoImg.getBoundingClientRect();
-    logoLeft = logoRect.left;
-    logoOffset = logoRect.top + scrollY - heroH;
-
-    const sealRect = navSealImg.getBoundingClientRect();
-    sealLeft = sealRect.left;
-    sealOffset = sealRect.top + scrollY - heroH;
+    // seal: track runs from 40px down the page to the header seal's bottom edge;
+    // the seal sits at the start of it and sticks 40px below the screen top until the track runs out
+    sealTrack.style.left = sealLeft + 'px';
+    sealTrack.style.top = GAP + 'px';
+    sealTrack.style.height = Math.max(sealH, sealTop + sealH - GAP) + 'px';
+    scrollSeal.style.width = sealW + 'px';
+    scrollSeal.style.height = sealH + 'px';
   }
 
-  // Cache the last display state so we only touch the DOM (classList/display)
-  // when something actually changes, instead of on every scroll frame.
-  let logoState = null;   // 'rest' | 'tracking' | 'hidden'
-  let sealState = null;
-
-  function update() {
-    const scrollY = window.scrollY;
-
-    // ── penny script logo: pinned over the hero, then tracks the header up
-    //    exactly (1:1 with scroll) until it settles into place — no easing
-    //    blend toward a moving target, so it can't dip past and correct back ──
-    const z = window.__pz || 1;  // page zoom: rects/scroll are in screen px, transforms in page px
-    const logoH = parseFloat(getComputedStyle(scrollLogo).height) || 0;  // 260px desktop, 76px phone
-    const restTop = window.innerHeight - (logoH + LOGO_BOTTOM_GAP) * z;
-    const naturalLogoTop = heroH + logoOffset - scrollY;
-
-    if (naturalLogoTop >= restTop) {
-      if (logoState !== 'rest') {
-        scrollLogo.style.display = 'block';
-        navLogo.classList.remove('visible');
-        logoState = 'rest';
-      }
-      scrollLogo.style.transform = 'translate3d(' + logoLeft / z + 'px,' + restTop / z + 'px,0)';
-    } else if (naturalLogoTop <= -100 * z) {
-      // Scrolled well past — hand off to the static nav logo
-      if (logoState !== 'hidden') {
-        scrollLogo.style.display = 'none';
-        navLogo.classList.add('visible');
-        logoState = 'hidden';
-      }
-    } else {
-      if (logoState !== 'tracking') {
-        scrollLogo.style.display = 'block';
-        navLogo.classList.remove('visible');
-        logoState = 'tracking';
-      }
-      scrollLogo.style.transform = 'translate3d(' + logoLeft / z + 'px,' + naturalLogoTop / z + 'px,0)';
-    }
-
-    // ── red wax seal: same pin-then-track approach ──
-    const sealRestTop = SEAL_START_MARGIN * z;
-    const naturalSealTop = heroH + sealOffset - scrollY;
-
-    if (naturalSealTop >= sealRestTop) {
-      if (sealState !== 'rest') {
-        scrollSeal.style.display = 'block';
-        navSealLink.classList.remove('visible');
-        sealState = 'rest';
-      }
-      scrollSeal.style.transform = 'translate3d(' + sealLeft / z + 'px,' + sealRestTop / z + 'px,0)';
-    } else if (naturalSealTop <= -100 * z) {
-      if (sealState !== 'hidden') {
-        scrollSeal.style.display = 'none';
-        navSealLink.classList.add('visible');
-        sealState = 'hidden';
-      }
-    } else {
-      if (sealState !== 'tracking') {
-        scrollSeal.style.display = 'block';
-        navSealLink.classList.remove('visible');
-        sealState = 'tracking';
-      }
-      scrollSeal.style.transform = 'translate3d(' + sealLeft / z + 'px,' + naturalSealTop / z + 'px,0)';
-    }
+  let pending = false;
+  function remeasure(){
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(function(){ pending = false; measure(); });
   }
-
-  // Throttle scroll-driven updates to one per animation frame -- scroll events
-  // can fire far more often than the display refreshes (especially on
-  // trackpads/high-frequency wheels), so without this the handler above runs
-  // redundantly many times per frame for no visual benefit.
-  let ticking = false;
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(() => {
-        update();
-        ticking = false;
-      });
-    }
-  }
-
-  function refresh() {
-    measure();
-    update();
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', refresh, { passive: true });
-  window.addEventListener('load', refresh);
-  refresh();
+  window.addEventListener('resize', remeasure, { passive: true });
+  window.addEventListener('orientationchange', remeasure, { passive: true });
+  window.addEventListener('load', measure);
+  measure();
 })();
 </script>
 <script>

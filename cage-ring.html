@@ -259,7 +259,7 @@ footer{
 /* gallery */
 .gallery-main{
   background:#ffffff;
-  border:1px solid var(--ink);
+  border:none;
   display:flex;
   overflow-x:auto;
   overflow-y:hidden;
@@ -443,10 +443,10 @@ function pennyImgFallback(img){
 <div class="product-wrap">
   <div class="gallery">
     <div class="gallery-main" id="galleryMain">
-      <div class="gallery-slide"><img src="images/cagering_1.jpg" alt="Cage Ring photo 1" data-fallbacks="images/cagering_1.jpeg,images/cagering_1.png,images/cagering_1.webp" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></div>
-      <div class="gallery-slide"><img src="images/cagering_2.jpg" alt="Cage Ring photo 2" data-fallbacks="images/cagering_2.jpeg,images/cagering_2.png,images/cagering_2.webp" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div>
-      <div class="gallery-slide"><img src="images/cagering_3.jpg" alt="Cage Ring photo 3" data-fallbacks="images/cagering_3.jpeg,images/cagering_3.png,images/cagering_3.webp" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="56" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="47" rx="30" ry="9" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="20" y="47" width="60" height="9" fill="#ece8e0"/><path d="M 38 47 C 34 36,28 28,20 22 C 26 28,34 37,38 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/><path d="M 62 47 C 66 36,72 28,80 22 C 74 28,66 37,62 47Z" fill="#c8c4bc" stroke="#2a2a2a" stroke-width="0.6"/></svg></div>
-      <div class="gallery-slide"><img src="images/cagering_4.jpg" alt="Cage Ring photo 4" data-fallbacks="images/cagering_4.jpeg,images/cagering_4.png,images/cagering_4.webp" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="28" fill="none" stroke="#3a3632" stroke-width="1.4"/><circle cx="50" cy="50" r="18" fill="#ece8e0" stroke="#3a3632" stroke-width="1"/></svg></div>
+      <div class="gallery-slide"><img src="images/cagering_1.jpg" alt="Cage Ring photo 1" fetchpriority="high" data-fallbacks="images/cagering_1.jpeg,images/cagering_1.png,images/cagering_1.webp,images/cagering_1.JPG,images/cagering_1.JPEG,images/cagering_1.PNG,images/cagering_1.jpg.jpg" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
+      <div class="gallery-slide"><img src="images/cagering_2.jpg" alt="Cage Ring photo 2" data-fallbacks="images/cagering_2.jpeg,images/cagering_2.png,images/cagering_2.webp,images/cagering_2.JPG,images/cagering_2.JPEG,images/cagering_2.PNG,images/cagering_2.jpg.jpg" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
+      <div class="gallery-slide"><img src="images/cagering_3.jpg" alt="Cage Ring photo 3" data-fallbacks="images/cagering_3.jpeg,images/cagering_3.png,images/cagering_3.webp,images/cagering_3.JPG,images/cagering_3.JPEG,images/cagering_3.PNG,images/cagering_3.jpg.jpg" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
+      <div class="gallery-slide"><img src="images/cagering_4.jpg" alt="Cage Ring photo 4" data-fallbacks="images/cagering_4.jpeg,images/cagering_4.png,images/cagering_4.webp,images/cagering_4.JPG,images/cagering_4.JPEG,images/cagering_4.PNG,images/cagering_4.jpg.jpg" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
     </div>
     <div class="gallery-dots" id="galleryDots"></div>
   </div>
@@ -518,10 +518,12 @@ function pennyImgFallback(img){
     var all = [].slice.call(main.querySelectorAll('.gallery-slide'));
     var loaded = function(im){ return im && !im.hasAttribute('data-failed') && im.complete && im.naturalWidth > 0; };
     var waiting = function(im){ return im && !im.hasAttribute('data-failed') && !loaded(im); };
+    // Only slides whose photo has loaded are shown (more appear as they finish loading).
+    // Until the first photo arrives, one empty frame holds the space.
     var withPhoto = all.filter(function(sl){ return loaded(sl.querySelector('img')); });
-    var pending = all.some(function(sl){ return waiting(sl.querySelector('img')); });
-    all.forEach(function(sl){
-      sl.style.display = (withPhoto.length && !pending && withPhoto.indexOf(sl) === -1) ? 'none' : '';
+    all.forEach(function(sl, i){
+      var show = withPhoto.length ? withPhoto.indexOf(sl) !== -1 : i === 0;
+      sl.style.display = show ? '' : 'none';
     });
     slides = all.filter(function(sl){ return sl.style.display !== 'none'; });
     dotsWrap.innerHTML = '';

@@ -159,7 +159,7 @@ nav{
   display:block;
   position:relative;
   background:#ffffff;
-  border:1px solid var(--ink);
+  border:none;
   padding:0;
   text-decoration:none;
   overflow:hidden;
@@ -353,7 +353,7 @@ function pennyImgFallback(img){
 
 <div class="product-list">
   <div class="item-row" data-name="Cage Ring" data-price="425">
-    <a class="item-photo" href="cage-ring.html"><img src="images/cagering_cover.jpg" alt="Cage Ring" data-fallbacks="images/cagering_cover.jpeg,images/cagering_cover.png,images/cagering_cover.webp" onerror="pennyImgFallback(this)"/><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></a>
+    <a class="item-photo" href="cage-ring.html"><img src="images/cagering_cover.jpg" alt="Cage Ring" fetchpriority="high" data-fallbacks="images/cagering_cover.jpeg,images/cagering_cover.png,images/cagering_cover.webp,images/cagering_cover.JPG,images/cagering_cover.JPEG,images/cagering_cover.PNG,images/cagering_cover.jpg.jpg" onerror="pennyImgFallback(this)"/></a>
     <div class="item-info">
       <div class="item-head"><a class="item-name" href="cage-ring.html">Cage Ring</a><span class="item-price">$425</span></div>
       <div class="item-line"><span class="item-label">Material:</span> 925 sterling silver</div>
