@@ -403,7 +403,7 @@ footer{
 }
 </style>
 <script>
-/* Photo slots: each <img> tries images/NAME.jpg, then .jpeg, .png, .webp.
+/* Photo slots: each <img> tries images/NAME.webp first, then .jpg, .jpeg, .png.
    If none exists yet, it hides itself and the placeholder drawing underneath shows instead. */
 function pennyImgFallback(img){
   var list = (img.getAttribute('data-fallbacks') || '').split(',').filter(Boolean);
@@ -443,10 +443,10 @@ function pennyImgFallback(img){
 <div class="product-wrap">
   <div class="gallery">
     <div class="gallery-main" id="galleryMain">
-      <div class="gallery-slide"><img src="images/cagering_1.jpg" alt="Cage Ring photo 1" fetchpriority="high" data-fallbacks="images/cagering_1.jpeg,images/cagering_1.png,images/cagering_1.webp,images/cagering_1.JPG,images/cagering_1.JPEG,images/cagering_1.PNG,images/cagering_1.jpg.jpg" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
-      <div class="gallery-slide"><img src="images/cagering_2.jpg" alt="Cage Ring photo 2" data-fallbacks="images/cagering_2.jpeg,images/cagering_2.png,images/cagering_2.webp,images/cagering_2.JPG,images/cagering_2.JPEG,images/cagering_2.PNG,images/cagering_2.jpg.jpg" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
-      <div class="gallery-slide"><img src="images/cagering_3.jpg" alt="Cage Ring photo 3" data-fallbacks="images/cagering_3.jpeg,images/cagering_3.png,images/cagering_3.webp,images/cagering_3.JPG,images/cagering_3.JPEG,images/cagering_3.PNG,images/cagering_3.jpg.jpg" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
-      <div class="gallery-slide"><img src="images/cagering_4.jpg" alt="Cage Ring photo 4" data-fallbacks="images/cagering_4.jpeg,images/cagering_4.png,images/cagering_4.webp,images/cagering_4.JPG,images/cagering_4.JPEG,images/cagering_4.PNG,images/cagering_4.jpg.jpg" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
+      <div class="gallery-slide"><img src="images/cagering_1.webp" alt="Cage Ring photo 1" fetchpriority="high" data-fallbacks="images/cagering_1.jpg,images/cagering_1.jpeg,images/cagering_1.png,images/cagering_1.WEBP,images/cagering_1.JPG,images/cagering_1.JPEG,images/cagering_1.PNG" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
+      <div class="gallery-slide"><img src="images/cagering_2.webp" alt="Cage Ring photo 2" data-fallbacks="images/cagering_2.jpg,images/cagering_2.jpeg,images/cagering_2.png,images/cagering_2.WEBP,images/cagering_2.JPG,images/cagering_2.JPEG,images/cagering_2.PNG" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
+      <div class="gallery-slide"><img src="images/cagering_3.webp" alt="Cage Ring photo 3" data-fallbacks="images/cagering_3.jpg,images/cagering_3.jpeg,images/cagering_3.png,images/cagering_3.WEBP,images/cagering_3.JPG,images/cagering_3.JPEG,images/cagering_3.PNG" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
+      <div class="gallery-slide"><img src="images/cagering_4.webp" alt="Cage Ring photo 4" data-fallbacks="images/cagering_4.jpg,images/cagering_4.jpeg,images/cagering_4.png,images/cagering_4.WEBP,images/cagering_4.JPG,images/cagering_4.JPEG,images/cagering_4.PNG" onerror="pennyImgFallback(this)" onload="window.pennyImgSettled&&pennyImgSettled()"/></div>
     </div>
     <div class="gallery-dots" id="galleryDots"></div>
   </div>

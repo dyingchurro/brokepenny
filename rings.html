@@ -310,7 +310,7 @@ footer{
 }
 </style>
 <script>
-/* Photo slots: each <img> tries images/NAME.jpg, then .jpeg, .png, .webp.
+/* Photo slots: each <img> tries images/NAME.webp first, then .jpg, .jpeg, .png.
    If none exists yet, it hides itself and the placeholder drawing underneath shows instead. */
 function pennyImgFallback(img){
   var list = (img.getAttribute('data-fallbacks') || '').split(',').filter(Boolean);
@@ -353,7 +353,7 @@ function pennyImgFallback(img){
 
 <div class="product-list">
   <div class="item-row" data-name="Cage Ring" data-price="425">
-    <a class="item-photo" href="cage-ring.html"><img src="images/cagering_cover.jpg" alt="Cage Ring" fetchpriority="high" data-fallbacks="images/cagering_cover.jpeg,images/cagering_cover.png,images/cagering_cover.webp,images/cagering_cover.JPG,images/cagering_cover.JPEG,images/cagering_cover.PNG,images/cagering_cover.jpg.jpg" onerror="pennyImgFallback(this)"/></a>
+    <a class="item-photo" href="cage-ring.html"><img src="images/cagering_cover.webp" alt="Cage Ring" fetchpriority="high" data-fallbacks="images/cagering_cover.jpg,images/cagering_cover.jpeg,images/cagering_cover.png,images/cagering_cover.WEBP,images/cagering_cover.JPG,images/cagering_cover.JPEG,images/cagering_cover.PNG" onerror="pennyImgFallback(this)"/></a>
     <div class="item-info">
       <div class="item-head"><a class="item-name" href="cage-ring.html">Cage Ring</a><span class="item-price">$425</span></div>
       <div class="item-line"><span class="item-label">Material:</span> 925 sterling silver</div>
