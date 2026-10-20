@@ -521,7 +521,9 @@ footer{
   overflow:hidden;
 }
 .item-photo::before{content:'';display:block;padding-top:100%;}
-.item-photo svg,.item-photo img{position:absolute;top:7%;left:7%;width:86%;height:86%;object-fit:contain;opacity:0.85;}
+.item-photo svg{position:absolute;top:7%;left:7%;width:86%;height:86%;opacity:0.85;}
+/* real photo fills the whole square and sits on top of the placeholder drawing */
+.item-photo img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;}
 .item-info{
   font-family:'Courier Prime',monospace;
   font-weight:400;
@@ -636,6 +638,18 @@ function pennyHeroFallback(img){
   else { img.style.display = 'none'; img.removeAttribute('onerror'); }
 }
 </script>
+<script>
+/* Photo slots: each <img> tries images/NAME.jpg, then .jpeg, .png, .webp.
+   If none exists yet, it hides itself and the placeholder drawing underneath shows instead. */
+function pennyImgFallback(img){
+  var list = (img.getAttribute('data-fallbacks') || '').split(',').filter(Boolean);
+  if(list.length){ img.setAttribute('data-fallbacks', list.slice(1).join(',')); img.src = list[0]; return; }
+  img.setAttribute('data-failed', '1');
+  img.removeAttribute('onerror');
+  img.style.display = 'none';
+  if(window.pennyImgSettled) window.pennyImgSettled();
+}
+</script>
 </head>
 <body>
 
@@ -680,7 +694,7 @@ function pennyHeroFallback(img){
 <!-- PRODUCT LIST — newest pieces first; add new items at the top -->
 <div class="product-list">
   <div class="item-row" data-name="Cage Ring" data-price="425">
-    <a class="item-photo" href="cage-ring.html"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></a>
+    <a class="item-photo" href="cage-ring.html"><img src="images/cagering_cover.jpg" alt="Cage Ring" data-fallbacks="images/cagering_cover.jpeg,images/cagering_cover.png,images/cagering_cover.webp" onerror="pennyImgFallback(this)"/><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="58" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><ellipse cx="50" cy="48" rx="32" ry="10" fill="none" stroke="#3a3632" stroke-width="1.2"/><rect x="18" y="48" width="64" height="10" fill="#ece8e0"/><line x1="18" y1="48" x2="18" y2="58" stroke="#3a3632" stroke-width="1.2"/><line x1="82" y1="48" x2="82" y2="58" stroke="#3a3632" stroke-width="1.2"/></svg></a>
     <div class="item-info">
       <div class="item-head"><a class="item-name" href="cage-ring.html">Cage Ring</a><span class="item-price">$425</span></div>
       <div class="item-line"><span class="item-label">Material:</span> 925 sterling silver</div>
